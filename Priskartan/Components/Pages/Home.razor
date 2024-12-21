@@ -1,0 +1,41 @@
+﻿@page "/"
+
+@using Priskartan.Models
+@using Priskartan.Services.Eon;
+@using Priskartan.Services.SvenskMaeklarstatistik;
+
+@inject IEonService EonService
+@inject ISvenskMaeklarstatistikService SvenskMaeklarstatistikService
+
+<PageTitle>Priskartan</PageTitle>
+
+<div>
+    <h2>Elpris</h2>
+    @foreach (var currentPrice in electricityPricePerSection?.MonthlyAveragePrice ?? [])
+    {
+        <div style="margin-top: 1rem;">
+            <h4>@(currentPrice?.PriceArea)</h4>
+            <p>@(currentPrice?.Price)</p>
+        </div>
+    }
+
+    <h2>Bostadspriser (medel per region)</h2>
+    @foreach (var (region, price) in averageRealEstatePrices)
+    {
+        <div style="margin-top: 1rem;">
+            <h4>@(region)</h4>
+            <p>@(price)</p>
+        </div>
+    }
+</div>
+
+@code {
+    EonSpotPrice? electricityPricePerSection { get; set; }
+    Dictionary<string, int> averageRealEstatePrices { get; set; } = new();
+
+    protected override async Task OnInitializedAsync()
+    {
+        electricityPricePerSection = await EonService.GetPricesAsync();
+        averageRealEstatePrices = SvenskMaeklarstatistikService.LoadRealEstatePriceData();
+    }
+}

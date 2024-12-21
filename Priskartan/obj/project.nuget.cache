@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "dgSpecHash": "sLN5AC17BaE2nBo5oGIh4ylyHou8FQE0WPG9YSYIwzdRFg9HnzuZhttuk+8oc/LDyJZw0E7jX41znAi4FyuwlA==",
+  "success": true,
+  "projectFilePath": "C:\\Users\\delac\\source\\repos\\Priskartan\\Priskartan\\Priskartan.csproj",
+  "expectedPackageFiles": [
+    "C:\\Users\\delac\\.nuget\\packages\\htmlagilitypack\\1.11.71\\htmlagilitypack.1.11.71.nupkg.sha512"
+  ],
+  "logs": []
+}

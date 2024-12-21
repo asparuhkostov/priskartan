@@ -1,0 +1,29 @@
+{
+  "Files": [
+    {
+      "Id": "C:\\Users\\delac\\source\\repos\\Priskartan\\Priskartan\\obj\\Debug\\net8.0\\scopedcss\\projectbundle\\Priskartan.bundle.scp.css",
+      "PackagePath": "staticwebassets\\Priskartan.bundle.scp.css"
+    },
+    {
+      "Id": "C:\\Users\\delac\\source\\repos\\Priskartan\\Priskartan\\wwwroot\\app.css",
+      "PackagePath": "staticwebassets\\app.css"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.Priskartan.Microsoft.AspNetCore.StaticWebAssets.props",
+      "PackagePath": "build\\Microsoft.AspNetCore.StaticWebAssets.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.build.Priskartan.props",
+      "PackagePath": "build\\Priskartan.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildMultiTargeting.Priskartan.props",
+      "PackagePath": "buildMultiTargeting\\Priskartan.props"
+    },
+    {
+      "Id": "obj\\Debug\\net8.0\\staticwebassets\\msbuild.buildTransitive.Priskartan.props",
+      "PackagePath": "buildTransitive\\Priskartan.props"
+    }
+  ],
+  "ElementsToRemove": []
+}
