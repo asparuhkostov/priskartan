@@ -1,5 +1,5 @@
 ﻿using HtmlAgilityPack;
-using System.Collections.Generic;
+using Priskartan.Shared.Constants;
 
 namespace Priskartan.Services.SvenskMaeklarstatistik;
 
@@ -9,27 +9,27 @@ public class SvenskMaeklarstatistikService : ISvenskMaeklarstatistikService
     private static readonly string KingdomAreaUrl = $"{BaseUrl}/omrade/riket/";
     private static readonly List<string> swedishRegions = new List<string>()
     {
-        "Blekinge",
-        "Dalarna",
-        "Gotland",
-        "Gävleborg",
-        "Halland",
-        "Jämtland",
-        "Jönköping",
-        "Kalmar",
-        "Kronoberg",
-        "Norrbotten",
-        "Skåne",
-        "Stockholm",
-        "Södermanland",
-        "Uppsala",
-        "Värmland",
-        "Västerbotten",
-        "Västernorrland",
-        "Västmanland",
-        "Västra Götaland",
-        "Örebro",
-        "Östergötland"
+        SwedishRegions.BLEKINGE,
+        SwedishRegions.DALARNA,
+        SwedishRegions.GOTLAND,
+        SwedishRegions.GAVLEBORG,
+        SwedishRegions.HALLAND,
+        SwedishRegions.JAMTLAND,
+        SwedishRegions.JONKOPING,
+        SwedishRegions.KALMAR,
+        SwedishRegions.KRONOBERG,
+        SwedishRegions.NORRBOTTEN,
+        SwedishRegions.SKANE,
+        SwedishRegions.STOCKHOLM,
+        SwedishRegions.SODERMANLAND,
+        SwedishRegions.UPPSALA,
+        SwedishRegions.VARMLAND,
+        SwedishRegions.VASTERBOTTEN,
+        SwedishRegions.VASTERNORRLAND,
+        SwedishRegions.VASTMANLAND,
+        SwedishRegions.VASTRA_GOTALAND,
+        SwedishRegions.OREBRO,
+        SwedishRegions.OSTERGOTLAND
     };
 
     public Dictionary<string, int> LoadRealEstatePriceData()

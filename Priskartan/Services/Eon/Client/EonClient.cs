@@ -10,7 +10,7 @@ public class EonClient
 
     private HttpClient _httpClient = new HttpClient();
 
-    public async Task<EonSpotPrice> GetRegionalSpotPricesAsync()
+    public async Task<EonSpotPrice> GetSectorSpotPricesAsync()
     {
         var response = await _httpClient.GetAsync(SpotPricesUrl);
         var ApiResponse = await response.Content.ReadAsStringAsync();

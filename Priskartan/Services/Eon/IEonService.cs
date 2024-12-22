@@ -1,8 +1,6 @@
 ﻿namespace Priskartan.Services.Eon;
 
-using Priskartan.Models;
-
 public interface IEonService
 {
-    Task<EonSpotPrice> GetPricesAsync();
+    Task<Dictionary<string, double>> GetSpotPricePerRegion();
 }
