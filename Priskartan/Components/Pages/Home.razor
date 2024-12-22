@@ -1,15 +1,26 @@
 ﻿@page "/"
+@rendermode InteractiveServer
 
+@using System.Text.Json
 @using Priskartan.Models
 @using Priskartan.Services.Eon;
 @using Priskartan.Services.SvenskMaeklarstatistik;
+@using System.Text.Unicode;
+@using System.Text.Encodings.Web;
+@inject IJSRuntime JS
 
 @inject IEonService EonService
 @inject ISvenskMaeklarstatistikService SvenskMaeklarstatistikService
 
 <PageTitle>Priskartan</PageTitle>
+<head>
+    <script src="https://d3js.org/d3.v6.js"></script>
+</head>
 
 <div>
+    <svg width="440", height="1200"></svg>
+    <button @onclick="LoadMapDataAsync">Load</button>
+
     <h2>Elpris</h2>
     @foreach (var currentPrice in electricityPricePerSection?.MonthlyAveragePrice ?? [])
     {
@@ -29,6 +40,37 @@
     }
 </div>
 
+<script>
+    function displayMap(data) {
+        // The svg
+        const svg = d3.select("svg"),
+            width = +svg.attr("width"),
+            height = +svg.attr("height");
+
+        // Map and projection
+        const projection = d3.geoMercator()
+            .center([18, 60])                // GPS of location to zoom on
+            .scale(1200)                       // This is like the zoom
+            .translate([width / 2, height / 2])
+
+        // Load external data and boot
+        d3.json("https://localhost:7149/swedish_regions.json").then(function (data) {
+            // Draw the map
+            svg.append("g")
+                .selectAll("path")
+                .data(data.features)
+                .join("path")
+                .attr("fill", "grey")
+                .attr("d", d3.geoPath()
+                    .projection(projection)
+                )
+                .style("stroke", "none")
+        })
+    }
+
+    document.displayMap = displayMap;
+</script>
+
 @code {
     EonSpotPrice? electricityPricePerSection { get; set; }
     Dictionary<string, int> averageRealEstatePrices { get; set; } = new();
@@ -37,5 +79,22 @@
     {
         electricityPricePerSection = await EonService.GetPricesAsync();
         averageRealEstatePrices = SvenskMaeklarstatistikService.LoadRealEstatePriceData();
+
+        var data = JsonSerializer.Serialize(
+            averageRealEstatePrices,
+            new JsonSerializerOptions { Encoder = JavaScriptEncoder.Create(UnicodeRanges.All) }
+        );
+    }
+
+    private async Task LoadMapDataAsync()
+    {
+        var data = JsonSerializer.Serialize(
+            averageRealEstatePrices,
+            new JsonSerializerOptions { Encoder = JavaScriptEncoder.Create(UnicodeRanges.All) }
+        );
+
+        Console.WriteLine(data);
+
+        await JS.InvokeVoidAsync("document.displayMap", data);
     }
 }

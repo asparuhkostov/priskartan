@@ -8,27 +8,27 @@ public class SvenskMaeklarstatistikService : ISvenskMaeklarstatistikService
     private static readonly string KingdomAreaUrl = $"{BaseUrl}/omrade/riket/";
     private static readonly List<string> swedishRegions = new List<string>()
     {
-        "Blekinge län",
-        "Dalarnas län",
-        "Gotlans länd",
-        "Gävleborgs län",
-        "Hallands län",
-        "Jämtlands län",
-        "Jönköpings län",
-        "Kalmar län",
-        "Kronobergs län",
-        "Norrbottens län",
-        "Skåne län",
-        "Stockholms län",
-        "Södermanlands län",
-        "Uppsala län",
-        "Värmlands län",
-        "Västerbottens län",
-        "Västernorrlands län",
-        "Västmanlands län",
-        "Västra Götalands län",
-        "Örebro län",
-        "Östergötlands län"
+        "Blekinge",
+        "Dalarna",
+        "Gotland",
+        "Gävleborg",
+        "Halland",
+        "Jämtland",
+        "Jönköping",
+        "Kalmar",
+        "Kronoberg",
+        "Norrbotten",
+        "Skåne",
+        "Stockholm",
+        "Södermanland",
+        "Uppsala",
+        "Värmland",
+        "Västerbotten",
+        "Västernorrland",
+        "Västmanland",
+        "Västra Götaland",
+        "Örebro",
+        "Östergötland"
     };
 
     public Dictionary<string, int> LoadRealEstatePriceData()
@@ -38,7 +38,7 @@ public class SvenskMaeklarstatistikService : ISvenskMaeklarstatistikService
         var web = new HtmlWeb();
         var doc = web.Load(KingdomAreaUrl);
         var tableData = doc.DocumentNode.SelectNodes("//table[contains(@class, 'width-100') and contains(@class, 'sortable-table')]/tbody/tr/td[4]\r\n");
-        var usefulTableData = tableData.Skip(4).Take(20);
+        var usefulTableData = tableData.Skip(4).Take(21);
         
         for(var  i = 0; i < usefulTableData.Count(); i++)
         {
