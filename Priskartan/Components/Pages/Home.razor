@@ -49,9 +49,13 @@
 
         // Map and projection
         const projection = d3.geoMercator()
-            .center([18, 60])                // GPS of location to zoom on
-            .scale(1200)                       // This is like the zoom
+            .center([18, 60]) // GPS location
+            .scale(1200) // Zoom
             .translate([width / 2, height / 2])
+        
+        var color = d3.scaleLinear([1000000, 5000000], ["green", "red"]);
+
+        var priceData = JSON.parse(data);
 
         // Load external data and boot
         d3.json("https://localhost:7149/swedish_regions.json").then(function (data) {
@@ -60,7 +64,7 @@
                 .selectAll("path")
                 .data(data.features)
                 .join("path")
-                .attr("fill", "grey")
+                .attr("fill", d => color(priceData[d.properties.name] ?? 0))
                 .attr("d", d3.geoPath()
                     .projection(projection)
                 )
