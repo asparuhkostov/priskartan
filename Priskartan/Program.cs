@@ -34,6 +34,7 @@ app.UseAntiforgery();
 app.MapRazorComponents<App>()
     .AddInteractiveServerRenderMode();
 
+// TO-DO: move this route handling logic to a more appropriate location
 app.MapGet("/admin/run-data-collection", async context => {
     var authMiddleware = new Auth(async innerContext => {
         var dataCollector = app.Services.GetService<IDataCollector>();
