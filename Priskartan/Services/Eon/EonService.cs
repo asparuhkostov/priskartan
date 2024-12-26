@@ -8,7 +8,7 @@ public class EonService : IEonService
 {
     private readonly EonClient _client = new EonClient();
     // TO-DO: split the sectors based on municipality instead, as some regions are split between sectors.
-    private readonly Dictionary<string, List<string>> regionsPerElectricalSector = new Dictionary<string, List<string>>()
+    private readonly Dictionary<string, List<string>> _regionsPerElectricalSector = new Dictionary<string, List<string>>()
     {
         { "SE1", new List<string> { SwedishRegions.NORRBOTTEN } },
         { "SE2", new List<string> { SwedishRegions.JAMTLAND, SwedishRegions.VASTERNORRLAND, SwedishRegions.VASTERBOTTEN, SwedishRegions.GAVLEBORG } },
@@ -21,14 +21,14 @@ public class EonService : IEonService
         return await _client.GetSectorSpotPricesAsync();
     }
 
-    public async Task<Dictionary<string, double>> GetSpotPricePerRegion()
+    public async Task<Dictionary<string, double>> GetSpotPricePerRegionAsync()
     {
         var finalData = new Dictionary<string, double>();
         var priceData = await GetPricesAsync();
 
         //There are 4 electrical-network sectors in Sweden,
         // so we need to map each of the regions to a sector.
-        foreach (var (sector, regions) in regionsPerElectricalSector)
+        foreach (var (sector, regions) in _regionsPerElectricalSector)
         {
             foreach(var region in regions)
             {

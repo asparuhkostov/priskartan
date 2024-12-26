@@ -2,5 +2,5 @@
 
 public interface IEonService
 {
-    Task<Dictionary<string, double>> GetSpotPricePerRegion();
+    Task<Dictionary<string, double>> GetSpotPricePerRegionAsync();
 }

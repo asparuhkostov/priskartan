@@ -102,8 +102,8 @@
 
     protected override async Task OnInitializedAsync()
     {
-        electricityPricePerRegion = await EonService.GetSpotPricePerRegion();
-        averageRealEstatePrices = SvenskMaeklarstatistikService.LoadRealEstatePriceData();
+        electricityPricePerRegion = await EonService.GetSpotPricePerRegionAsync();
+        averageRealEstatePrices = SvenskMaeklarstatistikService.GetRealEstatePriceData();
         _isInitialized = true;
         StateHasChanged();
     }

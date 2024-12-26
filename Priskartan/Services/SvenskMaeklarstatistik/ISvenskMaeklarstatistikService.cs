@@ -2,5 +2,5 @@
 
 public interface ISvenskMaeklarstatistikService
 {
-    Dictionary<string, int> LoadRealEstatePriceData();
+    Dictionary<string, int> GetRealEstatePriceData();
 }

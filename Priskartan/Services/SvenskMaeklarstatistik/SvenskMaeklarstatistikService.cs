@@ -32,13 +32,16 @@ public class SvenskMaeklarstatistikService : ISvenskMaeklarstatistikService
         SwedishRegions.OSTERGOTLAND
     };
 
-    public Dictionary<string, int> LoadRealEstatePriceData()
+    public Dictionary<string, int> GetRealEstatePriceData()
     {
         var finalReport = new Dictionary<string, int>();
 
         var web = new HtmlWeb();
         var doc = web.Load(KingdomAreaUrl);
         var tableData = doc.DocumentNode.SelectNodes("//table[contains(@class, 'width-100') and contains(@class, 'sortable-table')]/tbody/tr/td[4]\r\n");
+        
+        // The website in question has a few entries that aggregate numbers for larger sectors of Sweden.
+        // We want to skip those and get only the regional average prices.
         var usefulTableData = tableData.Skip(4).Take(21);
         
         for(var  i = 0; i < usefulTableData.Count(); i++)
