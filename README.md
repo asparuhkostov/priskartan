@@ -25,5 +25,6 @@ To run the data collection action, you can run a `curl` command using the dummy 
 * Move the auth token out of `appsettings.json` and into an env variable (that in a real/production environment would be set in Azure app secrets or similar).
 * Add unit tests with xUnit.
 * Upgrade the UI so that the tables are toggle-able and there are hover/click actions for the regions on the maps (displaying the price for each).
-* Add `Result` object based error-handling to the app.
+* Replace exception handling with the `Result` object based pattern.
 * Add a logger.
+* Support Swedish and English in the UI.

@@ -18,47 +18,73 @@
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-YvpcrYf0tY3lHB60NNkmXc5s9fDVZLESaAA55NDzOxhy9GkcIdslK1eN7N6jIeHz" crossorigin="anonymous"></script>
 </head>
 
-<div class="d-flex flex-column align-items-center mt-3">
-    <div class="text-center">
-        <h2>Bostadspriser (medel per region)</h2>
-        <div class="d-flex align-items-center">
-            <div class="d-flex flex-column align-items-center">
-                <svg id="real-estate-prices-map" width="440" , height="800"></svg>
-            </div>
-            <table>
-                <tbody>
-                    @foreach (var (region, price) in averageRealEstatePrices)
-                    {
-                        <tr>
-                            <td><b>@(region)</b></td>
-                            <td>@(price)</td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
-        </div>
+@if (!string.IsNullOrEmpty(dataLoadingError))
+{
+    <div class="alert alert-danger" role="alert">
+        @(dataLoadingError)
     </div>
+}
+else
+{
+    <div class="d-flex flex-column align-items-center mt-3 mb-3">
+        <div class="text-center">
+            <h2>Bostadspriser (medel per region)</h2>
+            <div class="d-flex flex-column align-items-center">
+                <svg id="real-estate-prices-map" width="370" , height="700"></svg>
+            </div>
+            <div>
+                <button class="btn btn-primary" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#real-estate-prices-table" aria-expanded="false" aria-controls="real-estate-prices-table">
+                    Show details
+                </button>
+                <div class="collapse mt-2" id="real-estate-prices-table">
+                    <div class="card card-body">
+                        <table>
+                            <tbody>
+                                @foreach (var (region, price) in averageRealEstatePrices)
+                                {
+                                    <tr>
+                                        <td><b>@(region)</b></td>
+                                        <td>@(price)</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
 
-    <div class="text-center">
-        <h2>Elpris</h2>
-        <div class="d-flex align-items-center">
+        <div class="text-center mt-5">
+            <h2>Elpris</h2>
             <div class="d-flex flex-column align-items-center">
-                <svg id="electricity-prices-map" width="440" , height="800"></svg>
+                <svg id="electricity-prices-map" width="370" , height="700"></svg>
             </div>
-            <table>
-                <tbody>
-                    @foreach (var (region, price) in electricityPricePerRegion)
-                    {
-                        <tr>
-                            <td><b>@(region)</b></td>
-                            <td>@(price)</td>
-                        </tr>
-                    }
-                </tbody>
-            </table>
+            <div>
+                <button class="btn btn-primary" type="button" data-bs-toggle="collapse"
+                        data-bs-target="#electricity-prices-table" aria-expanded="false" aria-controls="electricity-prices-table">
+                    Show details
+                </button>
+
+                <div class="collapse mt-2" id="electricity-prices-table">
+                    <div class="card card-body">
+                        <table>
+                            <tbody>
+                                @foreach (var (region, price) in electricityPricePerRegion)
+                                {
+                                    <tr>
+                                        <td><b>@(region)</b></td>
+                                        <td>@(price)</td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
-</div>
+}
 
 <script>
     function displayMap(svgSelector, data, lowerBound, upperBound) {
@@ -72,7 +98,7 @@
             .center([18, 63]) // GPS location
             .scale(1200) // Zoom
             .translate([width / 2, height / 2])
-        
+
         var color = d3.scaleLinear([lowerBound, upperBound], ["green", "red"]);
 
         var priceData = JSON.parse(data);
@@ -97,20 +123,30 @@
 
 @code {
     private bool _isInitialized = false;
-    Dictionary<string, double> electricityPricePerRegion { get; set; } = new();
-    Dictionary<string, int> averageRealEstatePrices { get; set; } = new();
+    private Dictionary<string, double> electricityPricePerRegion { get; set; } = new();
+    private Dictionary<string, int> averageRealEstatePrices { get; set; } = new();
+    private string dataLoadingError = string.Empty;
 
     protected override async Task OnInitializedAsync()
     {
-        electricityPricePerRegion = await EonService.GetSpotPricePerRegionAsync();
-        averageRealEstatePrices = SvenskMaeklarstatistikService.GetRealEstatePriceData();
+        // TO-DO: Replace with Result-object based handling.
+        try
+        {
+            electricityPricePerRegion = await EonService.GetSpotPricePerRegionAsync();
+            averageRealEstatePrices = SvenskMaeklarstatistikService.GetRealEstatePriceData();
+        }
+        catch
+        {
+            dataLoadingError = "Could not load the pricing data";
+        }
         _isInitialized = true;
         StateHasChanged();
     }
 
     protected override async Task OnAfterRenderAsync(bool firstRender)
     {
-        if (_isInitialized) { 
+        if (_isInitialized)
+        {
             await LoadMapDataAsync("#electricity-prices-map", electricityPricePerRegion, 5, 100);
             await LoadMapDataAsync("#real-estate-prices-map", averageRealEstatePrices, 1000000, 5000000);
         }
