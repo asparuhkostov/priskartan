@@ -14,7 +14,7 @@ A main service called "data collector" calls each pricing data service and funne
 The data is then displayed on maps & tables.
 
 # Running
-The `https` action in Visual Studion on the `Priskartan` solution can be used to get the app started.
+The `https` action in Visual Studio on the `Priskartan` solution can be used to get the app started.
 
 To run the data collection action, you can run a `curl` command using the dummy auth token `test`, i.e:
 `curl https://localhost:7149/admin/run-data-collection -H "Authorization: test"`.
@@ -26,4 +26,8 @@ To run the data collection action, you can run a `curl` command using the dummy 
 * Add a logger.
 * Support Swedish and English in the UI.
 * Add an SQlite db and gather data continuously, so that the number of requests to third parties goes down.
-* Add an admin UI or endpoint(s) for manually triggering & debugging the data gathering.
+* Move the admin functionality to its own service.
+
+# Screenshots
+![A view of the real estate prices map](/screenshots/real-estate-prices-map.png?raw=true)
+![A view of the electricity prices map](/screenshots/electricity-prices-map.png?raw=true)

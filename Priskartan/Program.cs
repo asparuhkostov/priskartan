@@ -46,6 +46,7 @@ app.MapGet("/admin/run-data-collection", async context => {
             return;
         }
 
+        // TO-DO: Write this data to a db
         var res = await dataCollector.CollectPricingData();
 
         innerContext.Response.StatusCode = StatusCodes.Status200OK;
