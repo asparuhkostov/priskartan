@@ -130,6 +130,7 @@ else
     protected override async Task OnInitializedAsync()
     {
         // TO-DO: Replace with Result-object based handling.
+        // TO-DO: Add CancellationToken usage
         try
         {
             electricityPricePerRegion = await EonService.GetSpotPricePerRegionAsync();
@@ -147,6 +148,7 @@ else
     {
         if (_isInitialized)
         {
+            // TO-DO: Add CancellationToken usage
             await LoadMapDataAsync("#electricity-prices-map", electricityPricePerRegion, 5, 100);
             await LoadMapDataAsync("#real-estate-prices-map", averageRealEstatePrices, 1000000, 5000000);
         }
